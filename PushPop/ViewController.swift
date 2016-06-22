@@ -10,16 +10,38 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var logo: UIImageView!
+    @IBOutlet weak var lbl_Text: UILabel!
+    @IBOutlet weak var btn_Text: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.logo!.alpha = 1
+        self.lbl_Text!.alpha = 1
+        self.btn_Text!.alpha = 1
+        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        UIView.animateWithDuration(3, animations: {
+            self.logo!.alpha = 1
+        }){(finished) in
+            UIView.animateWithDuration(3, animations: {
+                self.lbl_Text!.center = CGPointMake(self.logo!.center.x, self.logo!.frame.origin.y - 40)
+                self.lbl_Text!.alpha = 1
+            }){(finished) in
+                UIView.animateWithDuration(3, animations: {
+                    self.btn_Text!.center = CGPointMake(self.logo!.center.x, self.logo!.frame.origin.y + self.logo!.frame.height + 60)
+                    self.btn_Text.alpha = 1
+                })
+            }
+        }
     }
 
-
+    @IBAction func action_btnNext(sender: AnyObject) {
+        let loginView = self.storyboard?.instantiateViewControllerWithIdentifier("LogInView") as! LognView
+        self.navigationController?.pushViewController(loginView, animated: true)
+    }
 }
 
